@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #0a0910 0%, #1a0f2e 50%, #0a0910 100%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .background-effects {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 0, 98, 0.08) 0%, transparent 30%),
+                radial-gradient(circle at 80% 80%, rgba(147, 0, 219, 0.08) 0%, transparent 30%),
+                radial-gradient(circle at 50% 50%, rgba(255, 0, 98, 0.05) 0%, transparent 50%);
+            filter: blur(30px);
+            animation: backgroundPulse 8s ease-in-out infinite;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            box-shadow: 0 0 4px #fff;
+        }
+
+        .container {
+            position: relative;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .neon-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 5rem;
+            color: #ff3d7f;
+            text-shadow: 
+                0 0 7px #ff3d7f,
+                0 0 10px #ff3d7f,
+                0 0 21px #ff3d7f,
+                0 0 42px #ff1493,
+                0 0 82px #ff1493,
+                0 0 92px #ff1493,
+                0 0 102px #ff1493,
+                0 0 151px #ff1493;
+            animation: pulsate 2.5s infinite alternate, colorShift 8s infinite;
+            position: relative;
+            z-index: 2;
+            letter-spacing: 2px;
+        }
+
+        .reflection {
+            transform: scaleY(-0.25) translateY(20px);
+            opacity: 0.2;
+            filter: blur(4px);
+            background: linear-gradient(to bottom, rgba(255,255,255,0.1), transparent);
+            -webkit-background-clip: text;
+            background-clip: text;
+            z-index: 1;
+        }
+
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(30px);
+            opacity: 0.3;
+            animation: orbFloat 10s infinite ease-in-out;
+            mix-blend-mode: screen;
+        }
+
+        @keyframes backgroundPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes pulsate {
+            100% {
+                text-shadow: 
+                    0 0 4px #fff,
+                    0 0 11px #fff,
+                    0 0 19px #fff,
+                    0 0 40px #ff1493,
+                    0 0 80px #ff1493,
+                    0 0 90px #ff1493,
+                    0 0 100px #ff1493,
+                    0 0 150px #ff1493;
+            }
+            0% {
+                text-shadow: 
+                    0 0 2px #fff,
+                    0 0 4px #fff,
+                    0 0 6px #fff,
+                    0 0 10px #ff1493,
+                    0 0 45px #ff1493,
+                    0 0 55px #ff1493,
+                    0 0 70px #ff1493,
+                    0 0 80px #ff1493;
+            }
+        }
+
+        @keyframes colorShift {
+            0%, 100% { color: #ff3d7f; }
+            33% { color: #e44fb9; }
+            66% { color: #ff2464; }
+        }
+
+        @keyframes sparkleFloat {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            100% {
+                transform: translate(var(--moveX), var(--moveY)) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(var(--floatX), var(--floatY)) scale(1.2); }
+        }
+
+        .heart {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0;
+            filter: blur(1px);
+            color: #ff3d7f;
+            text-shadow: 0 0 8px #ff3d7f;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+            25% {
+                opacity: 0.6;
+                transform: translateY(-25vh) rotate(90deg) scale(1.2);
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        .radial-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle, 
+                rgba(255,20,147,0.1) 0%, 
+                rgba(147,0,219,0.05) 30%, 
+                rgba(255,20,147,0.02) 60%, 
+                transparent 70%);
+            z-index: 0;
+            filter: blur(40px);
+            animation: glowPulse 4s infinite alternate;
+            mix-blend-mode: screen;
+        }
+
+        @keyframes glowPulse {
+            0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.8); }
+            100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        @media (max-width: 768px) {
+            .neon-text {
+                font-size: 3.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .neon-text {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-effects"></div>
+    <div class="radial-glow"></div>
+    <div class="container">
+        <h1 class="neon-text">Happy Valentine's Day</h1>
+        <h1 class="neon-text reflection">Happy Valentine's Day</h1>
+    </div>
+
+    <script>
+        function createGlowOrb() {
+            const orb = document.createElement('div');
+            orb.className = 'glow-orb';
+            const size = Math.random() * 100 + 50;
+            orb.style.width = size + 'px';
+            orb.style.height = size + 'px';
+            orb.style.background = `radial-gradient(circle, 
+                hsla(${Math.random() * 40 + 330}, 100%, 60%, 0.2),
+                hsla(${Math.random() * 40 + 330}, 100%, 60%, 0))`;
+            orb.style.left = Math.random() * 100 + 'vw';
+            orb.style.top = Math.random() * 100 + 'vh';
+            orb.style.setProperty('--floatX', (Math.random() * 200 - 100) + 'px');
+            orb.style.setProperty('--floatY', (Math.random() * 200 - 100) + 'px');
+            
+            document.body.appendChild(orb);
+            
+            setTimeout(() => orb.remove(), 10000);
+        }
+
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + 'vw';
+            sparkle.style.top = Math.random() * 100 + 'vh';
+            sparkle.style.setProperty('--moveX', (Math.random() * 200 - 100) + 'px');
+            sparkle.style.setProperty('--moveY', (Math.random() * 200 - 100) + 'px');
+            sparkle.style.animation = `sparkleFloat ${Math.random() * 2 + 2}s linear`;
+            
+            document.body.appendChild(sparkle);
+            
+            sparkle.addEventListener('animationend', () => sparkle.remove());
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤';
+            heart.className = 'heart';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.animation = `float ${Math.random() * 3 + 4}s linear`;
+            
+            document.body.appendChild(heart);
+            
+            heart.addEventListener('animationend', () => heart.remove());
+        }
+
+        setInterval(createHeart, 300);
+        setInterval(createSparkle, 200);
+        setInterval(createGlowOrb, 2000);
+    </script>
+</body>
+</html>

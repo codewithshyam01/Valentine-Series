@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Timeline of My Life ❤️</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2a0845 0%, #6441A5 100%);
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Heading */
+        .magical-heading {
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+            margin-bottom: 2rem;
+        }
+
+        .heading-main {
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, #FF1493, #FF69B4, #FFB6C1, #FF1493);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientFlow 5s ease infinite;
+            margin-bottom: 1rem;
+        }
+
+        .heading-subtitle {
+            font-size: 1.8rem;
+            color: #FF69B4;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Timeline Container */
+        .timeline-container {
+            width: 100%;
+            padding: 2rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .timeline {
+            display: flex;
+            gap: 4rem;
+            padding: 2rem 4rem;
+            position: relative;
+        }
+
+        .timeline-item {
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 15px;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .timeline-item h3 {
+            color: #FF69B4;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        /* Next Button */
+        .next-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 2.5rem;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(-45deg, #FF1493, #FF69B4, #FFB6C1, #FF1493);
+            background-size: 300% 300%;
+            color: white;
+            cursor: pointer;
+            animation: gradientFlow 5s ease infinite;
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            z-index: 100;
+        }
+
+        .next-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 20, 147, 0.6);
+        }
+
+        /* Animations */
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Background Effects */
+        .floating-heart {
+            position: fixed;
+            pointer-events: none;
+            user-select: none;
+            animation: float var(--float-time) ease-in-out infinite;
+            opacity: 0.6;
+        }
+
+        /* Update the existing media queries and add new ones in the style section */
+
+@media (max-width: 768px) {
+    .heading-main {
+        font-size: 2rem;
+        padding: 0 1rem;
+    }
+    
+    .heading-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .timeline-container {
+        padding: 1rem;
+    }
+
+    .timeline {
+        gap: 2rem;
+        padding: 1rem;
+        flex-direction: column; /* Stack items vertically on mobile */
+        align-items: center;
+    }
+
+    .timeline-item {
+        min-width: unset;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .timeline-item h3 {
+        font-size: 1.3rem;
+    }
+
+    .timeline-item p {
+        font-size: 1rem;
+    }
+
+    .next-button {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .floating-heart {
+        font-size: 1rem !important; /* Override inline styles */
+    }
+}
+
+@media (max-width: 480px) {
+    .heading-main {
+        font-size: 1.8rem;
+    }
+
+    .timeline-item {
+        width: 95%;
+        padding: 1rem;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="magical-heading">
+        <h1 class="heading-main">Best Timeline of My Life</h1>
+        <div class="heading-subtitle">❤️ Our Love Story ❤️</div>
+    </div>
+
+    <div class="timeline-container">
+        <div class="timeline">
+            <!-- Timeline items will be added here -->
+        </div>
+    </div>
+
+    <button class="next-button" onclick="goToNextPage()">Next Page →</button>
+
+    <script>
+        // Create floating hearts
+        function createFloatingHearts() {
+            const hearts = ['❤️', '💖', '💝', '💕'];
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.top = `${Math.random() * 100}vh`;
+                heart.style.fontSize = `${Math.random() * 20 + 10}px`;
+                heart.style.setProperty('--float-time', `${Math.random() * 3 + 2}s`);
+                document.body.appendChild(heart);
+            }
+        }
+
+        // Timeline data
+        const timelineEvents = [
+            {
+                title: "First Meet 🌟",
+                description: "The moment my world changed forever",
+                date: "January 15"
+            },
+            {
+                title: "First Date 🍽️",
+                description: "The start of our beautiful journey",
+                date: "February 1"
+            },
+            {
+                title: "First Kiss 💋",
+                description: "A magical moment under the stars",
+                date: "February 14"
+            },
+            {
+                title: "I Love You ❤️",
+                description: "When our hearts became one",
+                date: "March 1"
+            }
+        ];
+
+        // Create timeline items
+        function createTimeline() {
+            const timeline = document.querySelector('.timeline');
+            timelineEvents.forEach(event => {
+                const item = document.createElement('div');
+                item.className = 'timeline-item';
+                item.innerHTML = `
+                    <h3>${event.title}</h3>
+                    <p>${event.description}</p>
+                    <small>${event.date}</small>
+                `;
+                timeline.appendChild(item);
+            });
+        }
+
+        // Page transition
+        function goToNextPage() {
+            gsap.to('body', {
+                opacity: 0,
+                duration: 1,
+                ease: "power2.inOut",
+                onComplete: () => {
+                    window.location.href = 'letter.html';
+                }
+            });
+        }
+
+        window.onload = () => {
+            createFloatingHearts();
+            createTimeline();
+        
+            // Initialize horizontal scroll only for desktop
+            if (window.innerWidth > 768) {
+                gsap.registerPlugin(ScrollTrigger);
+                gsap.to(".timeline", {
+                    x: () => -(document.querySelector(".timeline").scrollWidth - window.innerWidth + 100),
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: ".timeline-container",
+                        pin: true,
+                        scrub: 1,
+                        end: () => "+=" + document.querySelector(".timeline").scrollWidth
+                    }
+                });
+            }
+        };
+        
+        // Add resize handler
+        window.addEventListener('resize', () => {
+            if (window.innerWidth <= 768) {
+                // Reset any transforms on timeline for mobile
+                gsap.set(".timeline", { clearProps: "all" });
+                ScrollTrigger.getAll().forEach(st => st.kill());
+            }
+        });
+    </script>
+</body>
+</html>
