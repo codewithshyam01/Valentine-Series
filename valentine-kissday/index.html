@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Kiss Day Madam Ji! 💋</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Bubblegum+Sans&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <style>
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        @keyframes slideUp {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes fallingSlow {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 0;
+            }
+            50% { opacity: 1; }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        .kiss-animation {
+            animation: float 3s infinite ease-in-out;
+        }
+        .wiggle-text {
+            animation: wiggle 2s infinite ease-in-out;
+        }
+        .heartbeat {
+            animation: heartbeat 1.5s infinite ease-in-out;
+        }
+        .slide-up {
+            animation: slideUp 0.5s ease-out forwards;
+        }
+        .falling {
+            animation: fallingSlow 8s linear infinite;
+            position: absolute;
+        }
+        .glow-text {
+            text-shadow: 0 0 10px rgba(255,182,193,0.8);
+        }
+        .love-button {
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255,105,180,0.3);
+        }
+        .love-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255,105,180,0.5);
+        }
+        .glass-effect {
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .message-container {
+            backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+        }
+    </style>
+</head>
+<body class="h-screen overflow-hidden bg-gradient-to-br from-pink-200 via-red-100 to-pink-300">
+    <!-- Background Hearts -->
+    <div id="hearts-container" class="fixed inset-0 pointer-events-none z-0"></div>
+
+    <!-- Main Content -->
+    <div class="relative h-screen flex flex-col items-center justify-center z-10 px-4">
+        <!-- Main Heading -->
+        <h1 class="text-5xl md:text-7xl font-['Pacifico'] text-pink-600 mb-8 wiggle-text glow-text text-center">
+            Happy Kiss Day,<br>Madam Ji! 😘💋
+        </h1>
+
+        <!-- GIF Container -->
+        <div class="w-48 h-48 mb-6 rounded-full overflow-hidden glass-effect p-1">
+            <img src="./kiss-licks.gif" alt="Love GIF" class="w-full h-full object-cover rounded-full">
+        </div>
+
+        <!-- Message Display Area (Initially empty) -->
+        <div id="message-display" class="h-16 flex items-center justify-center mb-4"></div>
+
+        <!-- Kiss Counter -->
+        <div class="glass-effect rounded-xl p-6 mb-6 text-center relative">
+            <p class="text-2xl text-pink-600 font-['Bubblegum_Sans']">
+                Total Kisses Sent: <span id="kiss-counter" class="font-bold">00001</span>
+            </p>
+            <p class="text-xl text-pink-500 mt-2 font-['Bubblegum_Sans']">
+                Madam Ji, the kisses will never stop! 😘💖
+            </p>
+        </div>
+
+        <!-- Kiss Button -->
+        <button id="kiss-button" class="love-button bg-pink-400 hover:bg-pink-500 text-white font-['Bubblegum_Sans'] 
+                                      text-2xl py-4 px-8 rounded-full mb-6 glass-effect">
+            Tap for a Surprise Kiss! 💋
+        </button>
+
+        <!-- Game Entry Button -->
+        <button id="play-button" class="love-button bg-red-400 hover:bg-red-500 text-white font-['Bubblegum_Sans'] 
+                                      text-3xl py-6 px-12 rounded-full heartbeat glass-effect">
+            Let's Play a Game! 💋
+        </button>
+    </div>
+
+    <script>
+        const messages = [
+            "Mwah! My sweetest Pookie! 💖",
+            "A special kiss for my cutest Madam Ji! 💝",
+            "You're my everything, cutie pie! 💕",
+            "Sending million kisses your way! 💋",
+            "My heart beats only for my Pookie! 💗",
+            "You make my world super duper special! 🌟",
+            "Forever yours, my adorable Madam Ji! 💘",
+            "Cuddles and kisses for you! 🤗💕",
+            "You're the sweetest sugar plum! 🍯💝",
+            "My heart goes boom boom for you! 💓"
+        ];
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            const symbols = ['💕', '💖', '💗', '💝', '💋', '✨', '🌸', '💘'];
+            heart.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+            heart.className = 'falling text-2xl';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            document.getElementById('hearts-container').appendChild(heart);
+            setTimeout(() => heart.remove(), 8000);
+        }
+
+        function showMessage(text) {
+            const messageDisplay = document.getElementById('message-display');
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message-container rounded-full px-6 py-3 text-xl text-pink-600 font-["Bubblegum_Sans"] slide-up text-center';
+            messageElement.textContent = text;
+            
+            // Clear previous message
+            messageDisplay.innerHTML = '';
+            messageDisplay.appendChild(messageElement);
+            
+            // Create floating hearts around the message
+            for (let i = 0; i < 3; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '💖';
+                heart.className = 'absolute text-xl kiss-animation';
+                heart.style.left = `${10 + i * 80}%`;
+                heart.style.top = '-20px';
+                messageElement.appendChild(heart);
+            }
+        }
+
+        function createKissEffect(e) {
+            const kiss = document.createElement('div');
+            kiss.innerHTML = '💋';
+            kiss.className = 'fixed text-5xl kiss-animation';
+            kiss.style.left = e.clientX + 'px';
+            kiss.style.top = e.clientY + 'px';
+            document.body.appendChild(kiss);
+            setTimeout(() => kiss.remove(), 3000);
+        }
+
+        document.getElementById('kiss-button').addEventListener('click', (e) => {
+            const counter = document.getElementById('kiss-counter');
+            counter.textContent = String(parseInt(counter.textContent) + 1).padStart(5, '0');
+            createKissEffect(e);
+            showMessage(messages[Math.floor(Math.random() * messages.length)]);
+        });
+
+        document.getElementById('play-button').addEventListener('click', () => {
+            document.body.style.transition = 'opacity 1s';
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                window.location.href = 'game.html';
+            }, 1000);
+        });
+
+        // Create initial hearts
+        for (let i = 0; i < 20; i++) {
+            setTimeout(createHeart, i * 400);
+        }
+
+        // Continue creating hearts
+        setInterval(createHeart, 800);
+    </script>
+</body>
+</html>
