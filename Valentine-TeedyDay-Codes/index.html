@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pookie Teddy Land</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .sparkling {
+            animation: sparkle 1s infinite;
+        }
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        .heartbeat {
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .teddy-rain {
+            position: absolute;
+            top: -50px;
+            animation: fall linear forwards;
+        }
+        @keyframes fall {
+            to { transform: translateY(100vh); }
+        }
+    </style>
+</head>
+<body class="min-h-screen gradient-bg overflow-hidden">
+    <div class="relative container mx-auto px-4 py-8 text-center">
+        <!-- Welcome Message -->
+        <div class="glass-effect p-8 mb-8 floating">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 kawaii-shadow" style="background: linear-gradient(45deg, #FF69B4, #FFB6C1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                ✨Hey Cutiee Welcome to Teddy Land! ✨
+            </h1>
+            <p class="text-xl md:text-2xl text-pink-500 kawaii-shadow">
+                No entry without cuteness overload! 🐻💗
+            </p>
+        </div>
+
+        <!-- Main Teddy -->
+        <div id="mainTeddy" class="w-64 h-64 mx-auto mb-8 cursor-pointer floating kawaii-shadow">
+            <svg viewBox="0 0 200 200" class="w-full h-full">
+                <!-- Teddy Body -->
+                <defs>
+                    <linearGradient id="teddyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#FFB6C1"/>
+                        <stop offset="100%" style="stop-color:#FFC0CB"/>
+                    </linearGradient>
+                    <filter id="fluff">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
+                    </filter>
+                </defs>
+                <circle cx="100" cy="100" r="80" fill="url(#teddyGradient)" filter="url(#fluff)"/>
+                <circle cx="100" cy="110" r="60" fill="#FFD1DC" filter="url(#fluff)"/>
+                <!-- Eyes -->
+                <circle cx="75" cy="80" r="8" fill="#4A4A4A"/>
+                <circle cx="75" cy="78" r="3" fill="white"/>
+                <circle cx="125" cy="80" r="8" fill="#4A4A4A"/>
+                <circle cx="125" cy="78" r="3" fill="white"/>
+                <!-- Nose -->
+                <circle cx="100" cy="95" r="10" fill="#FF9AAC"/>
+                <!-- Mouth -->
+                <path d="M 85 110 Q 100 120 115 110" stroke="#4A4A4A" fill="none" stroke-width="3"/>
+                <!-- Blush -->
+                <circle cx="70" cy="100" r="10" fill="#FFB6C1" opacity="0.5"/>
+                <circle cx="130" cy="100" r="10" fill="#FFB6C1" opacity="0.5"/>
+                <!-- Arms -->
+                <g class="waving" transform-origin="70 90">
+                    <path d="M 40 100 Q 55 90 70 90" stroke="url(#teddyGradient)" stroke-width="20" stroke-linecap="round"/>
+                </g>
+                <path d="M 160 100 Q 145 90 130 90" stroke="url(#teddyGradient)" stroke-width="20" stroke-linecap="round"/>
+            </svg>
+        </div>
+
+        <!-- Next Button -->
+        <button id="nextButton" class="glass-effect text-pink-500 font-bold py-4 px-10 rounded-full text-xl transition-all duration-300 hover:scale-110 hover:shadow-lg hover:text-pink-600 heartbeat">
+            🌈 Next Adventure! 🌈
+        </button>
+
+        <!-- Hidden Surprise Message -->
+        <div id="surprise" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 glass-effect p-8 hidden kawaii-shadow">
+            <p class="text-3xl font-bold mb-4" style="background: linear-gradient(45deg, #FF69B4, #FFB6C1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                ✨ Surprise Pookie! ✨
+            </p>
+            <p class="text-xl text-pink-500">
+                Here's a special hug from your teddy friend! 🤗💖
+            </p>
+        </div>
+    </div>
+
+    ...
+<script>
+    // Create falling teddies with hearts
+    function createTeddyRain() {
+        const elements = ['🧸', '💗', '✨', '🎀'];
+        const teddy = document.createElement('div');
+        teddy.innerHTML = elements[Math.floor(Math.random() * elements.length)];
+        teddy.className = 'teddy-rain text-2xl';
+        teddy.style.left = Math.random() * 100 + 'vw';
+        teddy.style.animationDuration = Math.random() * 3 + 2 + 's';
+        document.body.appendChild(teddy);
+        
+        setTimeout(() => {
+            teddy.remove();
+        }, 5000);
+    }
+
+    // Start teddy rain
+    setInterval(createTeddyRain, 400);
+
+    // Main teddy interaction with sparkle effect
+    const mainTeddy = document.getElementById('mainTeddy');
+    mainTeddy.addEventListener('click', () => {
+        mainTeddy.classList.add('scale-125');
+        createSparkles();
+        setTimeout(() => {
+            mainTeddy.classList.remove('scale-125');
+        }, 200);
+    });
+
+    function createSparkles() {
+        for (let i = 0; i < 10; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.innerHTML = '✨';
+            sparkle.style.position = 'absolute';
+            sparkle.style.left = '50%';
+            sparkle.style.top = '50%';
+            sparkle.style.transform = `translate(-50%, -50%) rotate(${Math.random() * 360}deg)`;
+            sparkle.style.animation = 'float 1s ease-out forwards';
+            mainTeddy.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 1000);
+        }
+    }
+
+    // Surprise message with enhanced animation
+    setTimeout(() => {
+        const surprise = document.getElementById('surprise');
+        surprise.classList.remove('hidden');
+        gsap.from(surprise, {
+            scale: 0,
+            rotation: 360,
+            duration: 1,
+            ease: "elastic.out(1, 0.5)"
+        });
+        setTimeout(() => {
+            gsap.to(surprise, {
+                scale: 0,
+                opacity: 0,
+                duration: 1,
+                ease: "power1.inOut",
+                onComplete: () => surprise.classList.add('hidden')
+            });
+        }, 2000); // Show for 2 seconds
+    }, 2000); // Show after 2 seconds
+
+    // Next button interaction with rainbow trail
+    document.getElementById('nextButton').addEventListener('click', () => {
+        gsap.to('body', {
+            opacity: 0,
+            duration: 1,
+            onComplete: () => window.location.href = 'Teddy.html'
+        });
+    });
+</script>
+...
+</body>
+</html>

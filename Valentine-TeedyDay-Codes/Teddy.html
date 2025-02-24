@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pookie Love Notes</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(3deg); }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes heartRain {
+            0% {
+                transform: translate(0, -100%) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--finalX), 100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .heart-rain {
+            position: fixed;
+            color: #ff6b81;
+            font-size: 24px;
+            pointer-events: none;
+            z-index: 0;
+            animation: heartRain linear forwards;
+        }
+
+        .magical-gradient {
+            background: linear-gradient(
+                45deg,
+                #FFE5F1 0%,
+                #FFB6C1 25%,
+                #FFC0CB 50%,
+                #FFE4E1 75%,
+                #FFE5F1 100%
+            );
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .floating { animation: float 3s ease-in-out infinite; }
+        .sparkling { animation: sparkle 2s ease-in-out infinite; }
+        .beating { animation: heartbeat 1.5s ease-in-out infinite; }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(255, 182, 193, 0.2);
+        }
+
+        .gif-container img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body class="min-h-screen magical-gradient overflow-hidden flex items-center justify-center">
+    <div class="container mx-auto px-4 py-8 relative">
+        <!-- Content Container -->
+        <div class="max-w-2xl mx-auto">
+            <!-- GIF Display -->
+            <div id="gifContainer" class="glass-effect p-6 mb-6 text-center floating flex justify-between items-center">
+                <div class="gif-container mx-auto">
+                    <img src="/api/placeholder/300/300" alt="Pookie Bear GIF" id="gifDisplay">
+                </div>
+                <div id="wishContainer" class="glass-effect p-6 text-center ml-6">
+                    <p id="wishText" class="text-2xl md:text-3xl text-pink-600 font-semibold">Kahoo Naa Pyaarr hyy 🤭💗</p>
+                </div>
+            </div>
+
+            <!-- Love Note Display -->
+            <div id="noteContainer" class="glass-effect p-6 mb-6 text-center">
+                <p id="noteText" class="text-xl md:text-2xl text-pink-600 font-semibold"></p>
+            </div>
+
+            <!-- Navigation -->
+            <div class="text-center">
+                <button id="nextButton" class="glass-effect px-8 py-4 text-xl font-bold text-pink-500 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg group beating">
+                    <span class="inline-block transition-transform group-hover:translate-x-2">Next Pookie Note 💝</span>
+                </button>
+            </div>
+
+            <!-- Progress Indicator -->
+            <div class="mt-6 flex justify-center gap-2">
+                <div id="progressDots" class="flex space-x-2"></div>
+            </div>
+        </div>
+
+        <!-- Next Page Button -->
+        <div class="text-center mt-6">
+            <button id="nextPageButton" class="glass-effect px-8 py-4 text-xl font-bold text-pink-500 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg group beating hidden">
+                <span class="inline-block transition-transform group-hover:translate-x-2">Next Adventure 🌈</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const notes = [
+            "You're my favorite teddy bear in the whole wide world! 🐻✨",
+            "Sending you the biggest pookie bear hugs! 🤗💕",
+            "You make my heart do a happy dance, my little teddy! 💝",
+            "You're sweeter than cotton candy, my pookie bear! 🍭",
+            "Every day is magical with my favorite teddy! ✨🌈"
+        ];
+
+        const gifs = [
+            "gif1.gif",
+            "gif2.gif",
+            "gif3.gif",
+            "gif4.gif",
+            "gif5.gif"
+        ];
+
+        let currentIndex = 0;
+
+        // Create falling hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            const heartSymbols = ['❤️', '💖', '💕', '💗', '💓', '💝'];
+            heart.innerHTML = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            heart.className = 'heart-rain';
+            
+            // Random starting position
+            const startX = Math.random() * window.innerWidth;
+            heart.style.left = `${startX}px`;
+            
+            // Random ending position (swaying effect)
+            const finalX = (Math.random() - 0.5) * 200;
+            heart.style.setProperty('--finalX', `${finalX}px`);
+            
+            // Random duration
+            const duration = Math.random() * 2 + 3;
+            heart.style.animationDuration = `${duration}s`;
+            
+            document.body.appendChild(heart);
+            
+            // Remove heart after animation
+            setTimeout(() => heart.remove(), duration * 1000);
+        }
+
+        // Initialize content and progress dots
+        function initialize() {
+            updateContent();
+            createProgressDots();
+            // Start creating hearts
+            setInterval(createHeart, 300);
+        }
+
+        // Update both note and GIF
+        function updateContent() {
+            updateNote();
+            updateGIF();
+            updateProgressDots();
+            if (currentIndex === 4) {
+                document.getElementById('nextPageButton').classList.remove('hidden');
+            } else {
+                document.getElementById('nextPageButton').classList.add('hidden');
+            }
+        }
+
+        // Update the love note with animation
+        function updateNote() {
+            const noteText = document.getElementById('noteText');
+            gsap.to(noteText, {
+                opacity: 0,
+                y: -20,
+                duration: 0.5,
+                onComplete: () => {
+                    noteText.textContent = notes[currentIndex];
+                    gsap.to(noteText, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.5,
+                        ease: "back.out"
+                    });
+                }
+            });
+        }
+
+        // Update the GIF display
+        function updateGIF() {
+            const gifImg = document.getElementById('gifDisplay');
+            gsap.to(gifImg, {
+                opacity: 0,
+                scale: 0.8,
+                duration: 0.5,
+                onComplete: () => {
+                    gifImg.src = gifs[currentIndex];
+                    gsap.to(gifImg, {
+                        opacity: 1,
+                        scale: 1,
+                        duration: 0.5,
+                        ease: "back.out"
+                    });
+                }
+            });
+        }
+
+        // Create progress dots
+        function createProgressDots() {
+            const container = document.getElementById('progressDots');
+            for (let i = 0; i < notes.length; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'w-3 h-3 rounded-full bg-pink-300';
+                container.appendChild(dot);
+            }
+        }
+
+        // Update progress dots
+        function updateProgressDots() {
+            const dots = document.querySelectorAll('#progressDots div');
+            dots.forEach((dot, index) => {
+                if (index === currentIndex) {
+                    dot.className = 'w-3 h-3 rounded-full bg-pink-500 beating';
+                } else {
+                    dot.className = 'w-3 h-3 rounded-full bg-pink-300';
+                }
+            });
+        }
+
+        // Handle next button click
+        document.getElementById('nextButton').addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % notes.length;
+            updateContent();
+        });
+
+        // Handle next page button click
+        document.getElementById('nextPageButton').addEventListener('click', () => {
+            gsap.to('body', {
+                opacity: 0,
+                duration: 1,
+                onComplete: () => window.location.href = 'kiss.html'
+            });
+        });
+
+        // Initialize the page
+        initialize();
+    </script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Teddy Day</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(
+                45deg,
+                #ff8ecd,
+                #ffb6c1,
+                #ffc0cb,
+                #ff69b4
+            );
+            background-size: 400% 400%;
+            animation: gradientFlow 15s ease infinite;
+            overflow: hidden;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .main-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            gap: 2rem;
+        }
+
+        .title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 5rem;
+            color: #fff;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2),
+                         0 0 20px rgba(255, 182, 193, 0.5);
+            animation: titleFloat 3s ease-in-out infinite;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        @keyframes titleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .teddy-container {
+            position: relative;
+            width: 450px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .teddy {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            animation: teddyBounce 4s ease-in-out infinite;
+            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.2));
+            cursor: pointer;
+        }
+
+        @keyframes teddyBounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.02); }
+        }
+
+        .teddy img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .teddy:hover img {
+            transform: scale(1.05);
+        }
+
+        .flying-kiss {
+            position: absolute;
+            font-size: 2rem;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 10;
+        }
+
+        @keyframes flyingKiss {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(100px, -100px) scale(2);
+                opacity: 0;
+            }
+        }
+
+        .love-message {
+            font-family: 'Great Vibes', cursive;
+            font-size: 6rem;
+            color: #fff;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2),
+                         0 0 20px rgba(255, 20, 147, 0.5);
+            animation: messageGlow 3s ease-in-out infinite;
+            text-align: center;
+            margin-bottom: 2rem;
+            line-height: 1.2;
+        }
+
+        @keyframes messageGlow {
+            0%, 100% { 
+                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2),
+                            0 0 20px rgba(255, 20, 147, 0.5);
+            }
+            50% { 
+                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3),
+                            0 0 30px rgba(255, 20, 147, 0.7);
+            }
+        }
+
+        .heart {
+            position: fixed;
+            font-size: 1.5rem;
+            pointer-events: none;
+            animation: heartFall 6s linear infinite;
+            opacity: 0.8;
+            z-index: -1;
+        }
+
+        @keyframes heartFall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 3.5rem;
+            }
+            .teddy-container {
+                width: 300px;
+                height: 300px;
+            }
+            .love-message {
+                font-size: 4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 3rem;
+            }
+            .teddy-container {
+                width: 250px;
+                height: 250px;
+            }
+            .love-message {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-section">
+        <h1 class="title">Happy Teddy Day! 🧸</h1>
+        <div class="teddy-container">
+            <div class="teddy">
+                <img src="./bubu-dudu-bubu.gif" alt="Cute Teddy Bear">
+            </div>
+        </div>
+        <div class="love-message">Love You My Teddy! 💝</div>
+    </div>
+
+    <script>
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            const hearts = ['❤️', '💗', '💖', '💝'];
+            heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            document.body.appendChild(heart);
+            
+            heart.addEventListener('animationend', () => {
+                heart.remove();
+            });
+        }
+
+        function createFlyingKiss(x, y) {
+            const kiss = document.createElement('div');
+            kiss.className = 'flying-kiss';
+            kiss.innerHTML = '💋';
+            kiss.style.left = x + 'px';
+            kiss.style.top = y + 'px';
+            document.body.appendChild(kiss);
+            
+            kiss.style.animation = 'flyingKiss 1s ease-out forwards';
+            
+            kiss.addEventListener('animationend', () => {
+                kiss.remove();
+            });
+        }
+
+        document.querySelector('.teddy').addEventListener('click', (e) => {
+            const rect = e.target.getBoundingClientRect();
+            createFlyingKiss(rect.left + rect.width/2, rect.top + rect.height/2);
+        });
+
+        setInterval(createHeart, 1000);
+    </script>
+</body>
+</html>
