@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pookie Promises</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        @keyframes rainbow-bg {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .rainbow-gradient {
+            background: linear-gradient(
+                45deg, 
+                #ff99c8,
+                #fcf6bd,
+                #d0f4de,
+                #a9def9,
+                #e4c1f9,
+                #ff99c8
+            );
+            background-size: 300% 300%;
+            animation: rainbow-bg 10s ease infinite;
+        }
+
+        .notebook-paper {
+            background: #fff;
+            background-image: 
+                linear-gradient(90deg, transparent 79px, #ffc0cb 79px, #ffc0cb 81px, transparent 81px),
+                linear-gradient(#e8e8ff .1em, transparent .1em);
+            background-size: 100% 1.2em;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            padding: 20px 20px 20px 100px;
+            border: 3px solid #ffd1dc;
+            transform: rotateX(10deg) rotateY(-10deg);
+            perspective: 1000px;
+        }
+
+        @keyframes writeText {
+            from { 
+                height: 0;
+                opacity: 0;
+            }
+            to { 
+                height: 1.5em;
+                opacity: 1;
+            }
+        }
+
+        .writing-animation {
+            overflow: hidden;
+            white-space: pre-wrap;
+            margin-bottom: 1em;
+            position: relative;
+            animation: writeText 1s ease-out forwards;
+            padding-left: 10px;
+            border-left: 3px solid transparent;
+            word-wrap: break-word;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .writing-animation:nth-child(5n + 1) { color: #ff69b4; border-left-color: #ff69b4; }
+        .writing-animation:nth-child(5n + 2) { color: #8a2be2; border-left-color: #8a2be2; }
+        .writing-animation:nth-child(5n + 3) { color: #ff6b6b; border-left-color: #ff6b6b; }
+        .writing-animation:nth-child(5n + 4) { color: #4dc1ff; border-left-color: #4dc1ff; }
+        .writing-animation:nth-child(5n + 5) { color: #ff8c00; border-left-color: #ff8c00; }
+
+        @keyframes heart-float {
+            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+            25% { transform: translateY(-15px) rotate(-5deg) scale(1.1); }
+            50% { transform: translateY(0) rotate(0deg) scale(1); }
+            75% { transform: translateY(-15px) rotate(5deg) scale(1.1); }
+        }
+
+        .floating-heart {
+            animation: heart-float 3s ease-in-out infinite;
+            cursor: pointer;
+            filter: drop-shadow(0 0 10px rgba(255,105,180,0.5));
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            animation: sparkle 1.5s ease-in-out infinite;
+            font-size: 0.8em;
+        }
+
+        @keyframes rain {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .rain-element {
+            position: absolute;
+            top: -10vh;
+            font-size: 2rem;
+            animation: rain 5s linear infinite;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="rainbow-gradient min-h-screen flex items-center justify-center p-4">
+    <div class="flex flex-col items-center max-w-3xl w-full">
+        <h1 class="text-5xl mb-8 font-bold text-white text-center" style="text-shadow: 3px 3px 6px rgba(0,0,0,0.2); font-family: 'Pacifico', cursive;">
+            My Pookie's Promise Book 🌈✨
+        </h1>
+        
+        <div class="floating-heart text-8xl mb-8" id="giftBox">
+            💝
+        </div>
+
+        <div class="notebook-paper w-full" id="notesContainer">
+        </div>
+    </div>
+
+    <script>
+        const promises = [
+            "✨ Pookie, I promise to be your sunshine on cloudy days! 🌞",
+            "🌸 I promise to give you all the cuddles and kisses you deserve! 💕",
+            "🎀 My sweetie pie, I promise to always make you feel special! ✨",
+            "💫 I promise to be your biggest cheerleader in everything you do! 🎉",
+            "🌈 My cutie, I promise to bring colors to your darkest days! 💝",
+            "🍪 I promise to bake you cookies whenever you're feeling down! 🥰",
+            "🎵 I promise to dance with you to all our favorite songs! 💃",
+            "🌟 I promise to be your rock and your soft place to land! 🤗",
+            "🦋 I promise to grow and evolve with you, my precious! 💖",
+            "🎪 I promise to make every day feel like an adventure with you! 🎡"
+        ];
+
+        function createSparkle() {
+            const sparkle = document.createElement('span');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + 'vw';
+            sparkle.style.top = Math.random() * 100 + 'vh';
+            sparkle.textContent = '✨';
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 1500);
+        }
+
+        function addPromise() {
+            const container = document.getElementById('notesContainer');
+            if (container.children.length >= 6) {
+                container.innerHTML = '';
+            }
+
+            const promise = promises[Math.floor(Math.random() * promises.length)];
+            const promiseEl = document.createElement('div');
+            promiseEl.className = 'writing-animation text-xl';
+            promiseEl.textContent = promise;
+            
+            container.appendChild(promiseEl);
+            createSparkle();
+        }
+
+        // Add sparkles periodically
+        setInterval(createSparkle, 2000);
+
+        document.getElementById('giftBox').addEventListener('click', addPromise);
+        
+        // Initial promise
+        setTimeout(addPromise, 1000);
+
+        function createRainElement(content) {
+            const element = document.createElement('div');
+            element.className = 'rain-element';
+            element.style.left = Math.random() * 100 + 'vw';
+            element.style.animationDuration = Math.random() * 3 + 2 + 's';
+            element.textContent = content;
+            document.body.appendChild(element);
+
+            setTimeout(() => element.remove(), 5000);
+        }
+
+        function startRain() {
+            setInterval(() => createRainElement('❤️'), 200);
+            setInterval(() => createRainElement('🌸'), 200);
+        }
+
+        startRain();
+    </script>
+</body>
+</html>
