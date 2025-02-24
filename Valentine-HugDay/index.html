@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Pacifico&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Sacramento&display=swap');
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+    }
+
+    .floating-hearts {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .floating-heart {
+      position: absolute;
+      font-size: 20px;
+      animation: float 6s linear infinite;
+      opacity: 0.6;
+      color: #ff6b95;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .teddy-container {
+      position: relative;
+      width: 300px;
+      height: 200px;
+      margin: 20px;
+    }
+
+    .teddy {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      background: #8b4513;
+      border-radius: 50%;
+      animation: moveAndHug 3s ease-in-out infinite;
+    }
+
+    .teddy::before {
+      content: '';
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: #8b4513;
+      border-radius: 50%;
+      top: -15px;
+      left: 25px;
+    }
+
+    .teddy.left {
+      left: 0;
+      transform-origin: right center;
+    }
+
+    .teddy.right {
+      right: 0;
+      transform-origin: left center;
+    }
+
+    @keyframes moveAndHug {
+      0%, 100% {
+        transform: translateX(0) rotate(0deg);
+      }
+      50% {
+        transform: translateX(110px) rotate(10deg);
+      }
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Caveat:wght@400;700&family=Schoolbell&display=swap');
+
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .loading-text {
+      font-family: 'Caveat', cursive;
+      font-size: 48px;
+      color: #FF69B4;
+      margin: 20px;
+      text-shadow: 3px 3px 6px rgba(255, 105, 180, 0.3);
+      animation: cuteWiggle 1.5s ease-in-out infinite;
+      position: relative;
+    }
+  
+    .loading-subtext {
+      font-family: 'Schoolbell', cursive;
+      font-size: 24px;
+      color: #FF1493;
+      margin-top: 10px;
+      opacity: 0.7;
+      animation: softBounce 1s ease-in-out infinite alternate;
+    }
+  
+    @keyframes cuteWiggle {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      25% { transform: rotate(-5deg) scale(1.05); }
+      75% { transform: rotate(5deg) scale(1.05); }
+    }
+  
+    @keyframes softBounce {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-10px); }
+    }
+  
+    .loading-text::before,
+    .loading-text::after {
+      content: '❤️';
+      display: inline-block;
+      margin: 0 10px;
+      font-size: 36px;
+      animation: heartBeat 1s ease-in-out infinite alternate;
+    }
+  
+    @keyframes heartBeat {
+      0% { transform: scale(0.8); }
+      100% { transform: scale(1.2); }
+    }
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+    }
+
+    .loading-bar {
+      width: 200px;
+      height: 20px;
+      background: rgba(255, 107, 149, 0.2);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .loading-progress {
+      width: 0%;
+      height: 100%;
+      background: #ff6b95;
+      border-radius: 10px;
+      animation: fill 3s ease-in-out forwards;
+    }
+
+    @keyframes fill {
+      to {
+        width: 100%;
+      }
+    }
+
+    .big-heart {
+      font-size: 60px;
+      color: #ff6b95;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      margin: 20px;
+      user-select: none;
+    }
+
+    .big-heart:hover {
+      animation: heartbeat 0.5s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Quicksand:wght@300;400;600&family=Fuzzy+Bubbles:wght@400;700&display=swap');
+
+    .welcome-message {
+      font-family: 'Caveat', cursive;
+      color: #FF5E9F;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: softFadeIn 1.5s ease-out 3s forwards;
+      max-width: 80%;
+      font-size: 40px;
+      line-height: 1.3;
+      text-shadow: 3px 3px 6px rgba(255, 94, 159, 0.2);
+      letter-spacing: 1px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 30px;
+      box-shadow: 0 10px 20px rgba(255, 94, 159, 0.1);
+      transition: all 0.3s ease;
+    }
+  
+    .welcome-message:hover {
+      transform: scale(1.02) translateY(15px);
+      text-shadow: 4px 4px 8px rgba(255, 94, 159, 0.3);
+    }
+  
+    @keyframes softFadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.9);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+  
+    .welcome-message::before,
+    .welcome-message::after {
+      content: '✿';
+      display: inline-block;
+      margin: 0 10px;
+      color: #FF82AB;
+      font-size: 36px;
+      vertical-align: middle;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .mini-heart {
+      position: absolute;
+      font-size: 16px;
+      color: #ff6b95;
+      pointer-events: none;
+      animation: burst 1s ease-out forwards;
+    }
+
+    @keyframes burst {
+      0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(2) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .next-button {
+        display: none;
+        margin-top: 20px;
+        padding: 12px 30px;
+        font-size: 20px;
+        color: #fff;
+        background: #ff6b95;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        font-family: 'Poppins', sans-serif;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+      }
+
+    .next-button:hover {
+        background: #e0557d;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+      }
+  </style>
+</head>
+<body>
+  <div class="floating-hearts"></div>
+  <div class="teddy-container">
+    <div class="teddy left"></div>
+    <div class="teddy right"></div>
+  </div>
+  <div class="loading-text">Loading Hugs...</div>
+  <div class="loading-subtext">Get ready for the cutest moment!</div>
+  <div class="loading-bar">
+    <div class="loading-progress"></div>
+  </div>
+  <div class="big-heart">❤️</div>
+  <div class="welcome-message">
+    Welcome to the warmest place on the internet, where every click brings you closer to my hugs!
+  </div>
+  <button class="next-button">Next</button>
+
+  <script>
+    // Create floating hearts background
+  function createFloatingHeart() {
+    const heart = document.createElement('div');
+    heart.innerHTML = '❤';
+    heart.className = 'floating-heart';
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+    document.querySelector('.floating-hearts').appendChild(heart);
+
+    // Remove heart after animation
+    heart.addEventListener('animationend', () => heart.remove());
+  }
+
+  // Create floating hearts periodically
+  setInterval(createFloatingHeart, 300);
+
+  // Big heart click handler
+  const bigHeart = document.querySelector('.big-heart');
+  bigHeart.addEventListener('click', (e) => {
+    // Create multiple mini hearts
+    for (let i = 0; i < 8; i++) {
+      const miniHeart = document.createElement('div');
+      miniHeart.innerHTML = '❤';
+      miniHeart.className = 'mini-heart';
+      miniHeart.style.left = e.pageX + 'px';
+      miniHeart.style.top = e.pageY + 'px';
+
+      document.body.appendChild(miniHeart);
+
+      // Remove mini heart after animation
+      miniHeart.addEventListener('animationend', () => miniHeart.remove());
+    }
+  });
+
+  // Show "Next" button after loading completes
+  const loadingProgress = document.querySelector('.loading-progress');
+  const nextButton = document.querySelector('.next-button');
+
+  loadingProgress.addEventListener('animationend', () => {
+    nextButton.style.display = 'block';
+  });
+
+  // Smooth transition to next page
+  nextButton.addEventListener('click', () => {
+    document.body.style.transition = 'opacity 0.5s';
+    document.body.style.opacity = '0';
+    setTimeout(() => {
+      window.location.href = 'first.html';
+    }, 500);
+  });
+    
+  </script>
+</body>
+</html>

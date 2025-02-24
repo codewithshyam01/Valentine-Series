@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pookie's Hug Day GIFs</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Gloria+Hallelujah&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Gloria+Hallelujah&display=swap');
+    
+    body {
+      background: linear-gradient(
+        45deg,
+        #ffe6ea 0%,
+        #ffd1dc 25%,
+        #ffb6c1 50%,
+        #ffc0cb 75%,
+        #ffe4e1 100%
+      );
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      min-height: 100vh;
+      overflow-x: hidden;
+      margin-top: -29px;
+
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes float {
+      0%, 100% { 
+        transform: translateY(0) rotate(5deg) scale(1); 
+      }
+      50% { 
+        transform: translateY(-15px) rotate(-5deg) scale(1.1); 
+      }
+    }
+
+    @keyframes heartRain {
+      0% {
+        transform: translateY(-10vh) rotate(0deg) scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: translateY(50vh) rotate(180deg) scale(1.2);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg) scale(1);
+        opacity: 0;
+      }
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .floating-heart {
+      animation: float 3s ease-in-out infinite;
+      filter: drop-shadow(0 4px 8px rgba(255, 107, 107, 0.3));
+    }
+
+    .raining-heart {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1000;
+      animation: heartRain linear forwards;
+    }
+
+    
+
+    .surprise-text {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-family: 'Bubblegum Sans', 'Gloria Hallelujah', cursive;
+      color: #ff6b88;
+      text-shadow: 
+        2px 2px 0 rgba(255, 255, 255, 0.8),
+        -2px -2px 0 rgba(255, 255, 255, 0.8),
+        2px -2px 0 rgba(255, 255, 255, 0.8),
+        -2px 2px 0 rgba(255, 255, 255, 0.8),
+        0 0 15px rgba(255, 107, 136, 0.5);
+      opacity: 0;
+      z-index: 2000;
+      padding: clamp(1.5rem, 3vw, 2rem);
+      border-radius: 25px;
+      /* Updated glass effect */
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px) brightness(1.1);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 
+        0 8px 32px rgba(255, 182, 193, 0.2),
+        inset 0 0 32px rgba(255, 255, 255, 0.2),
+        0 0 64px rgba(255, 255, 255, 0.2);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      text-align: center;
+      width: min(400px, 90vw);
+      letter-spacing: 1px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      /* Mirror effect gradient */
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.3) 0%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.2) 100%
+      );
+    }
+
+    /* Glass reflection effect */
+    .surprise-text::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 50%;
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      border-radius: 25px 25px 0 0;
+      pointer-events: none;
+    }
+
+    /* Sparkle decorations */
+    .surprise-text .sparkle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      animation: sparkle 1.5s ease-in-out infinite;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { 
+        opacity: 0.5;
+        transform: scale(1);
+      }
+      50% { 
+        opacity: 1;
+        transform: scale(1.2);
+      }
+    }
+
+    /* Update the animation keyframes */
+    @keyframes popIn {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+        backdrop-filter: blur(5px);
+      }
+      70% {
+        transform: translate(-50%, -50%) scale(1.1);
+        backdrop-filter: blur(12px);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+        backdrop-filter: blur(12px);
+      }
+    }
+
+    @keyframes fadeOut {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+        backdrop-filter: blur(12px);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+        backdrop-filter: blur(5px);
+      }
+    }
+
+    .gif-container {
+      position: relative;
+      width: 100%;
+      max-width: 450px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .gif-wrapper {
+      position: relative;
+      padding-bottom: 100%;
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: 
+        0 10px 30px rgba(255, 182, 193, 0.4),
+        0 0 20px rgba(255, 192, 203, 0.2);
+      border: 4px solid rgba(255, 255, 255, 0.9);
+      transform: translateZ(0);
+      transition: transform 0.3s ease;
+    }
+
+    .gif-wrapper:hover {
+      transform: translateY(-5px);
+    }
+
+    .gif-slide {
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .gif-slide img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.5s ease;
+    }
+
+    .gif-slide p {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.2rem, 3vw, 2rem);
+      color: #ff6b95;
+      text-align: center;
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(255, 192, 203, 0.2);
+      transform: translateY(0);
+      transition: all 0.3s ease;
+    }
+
+    .gif-slide p:hover {
+      transform: translateY(-3px);
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 6px 15px rgba(255, 192, 203, 0.3);
+    }
+
+    .hidden {
+      display: none;
+      opacity: 0;
+    }
+
+    .active {
+      opacity: 1;
+    }
+
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 45px;
+      height: 45px;
+      background: rgba(255, 255, 255, 0.95);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: #ff6b88;
+      box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .carousel-arrow:hover {
+      transform: translateY(-50%) scale(1.1);
+      background: white;
+      box-shadow: 0 6px 20px rgba(255, 182, 193, 0.4);
+    }
+
+    #surprise-btn {
+      transition: all 0.3s ease;
+      background: linear-gradient(45deg, #ff8fa3, #ff6b88);
+      font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 
+        0 5px 15px rgba(255, 182, 193, 0.3),
+        0 0 30px rgba(255, 192, 203, 0.2);
+    }
+
+    #surprise-btn:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 
+        0 8px 25px rgba(255, 182, 193, 0.4),
+        0 0 40px rgba(255, 182, 193, 0.3);
+    }
+
+    #surprise-btn:active {
+      transform: translateY(1px);
+    }
+
+    .main-container {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border: 4px solid rgba(255, 255, 255, 0.9);
+      border-radius: 30px;
+      box-shadow: 
+        0 15px 35px rgba(255, 182, 193, 0.3),
+        inset 0 0 40px rgba(255, 255, 255, 0.6);
+      padding: clamp(1rem, 4vw, 2rem);
+      margin: 2rem;
+      max-width: 800px;
+    }
+
+    /* Sparkle effect for surprise text */
+    .sparkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: white;
+      border-radius: 50%;
+      animation: sparkle 1.5s ease-in-out infinite;
+    }
+
+    @media (max-width: 768px) {
+      .surprise-text {
+        width: 90%;
+        padding: 2rem;
+      }
+      
+      .carousel-arrow {
+        width: 35px;
+        height: 35px;
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .main-container {
+        margin: 1rem;
+        padding: 1rem;
+      }
+      
+      .gif-wrapper {
+        border-radius: 20px;
+      }
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600&family=Indie+Flower&display=swap');
+
+    .pookie-button {
+      font-family: 'Comfortaa', cursive;
+      background-color: #FF69B4;
+      color: white;
+      border: 3px solid #FFFFFF;
+      padding: 12px 24px;
+      font-size: 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 15px rgba(255,105,180,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px auto;
+      position: relative;
+      overflow: hidden;
+    }
+  
+    .pookie-button:hover {
+      transform: scale(1.05);
+      background-color: #FF1493;
+    }
+  
+    .pookie-button::before {
+      content: '✨';
+      position: absolute;
+      top: -20px;
+      left: -20px;
+      font-size: 30px;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+  
+    .pookie-button:hover::before {
+      top: 10px;
+      left: 10px;
+      opacity: 1;
+    }
+  
+    .pookie-button::after {
+      content: '🎀';
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      font-size: 30px;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+  
+    .pookie-button:hover::after {
+      bottom: 10px;
+      right: 10px;
+      opacity: 1;
+    }
+    .next-page-button {
+        display: none; /* Initially hidden */
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(45deg, #ff8fa3, #ff6b88);
+        font-family: 'Pacifico', cursive;
+        font-size: 1rem;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        z-index: 100;
+      }
+    
+      .next-page-button:hover {
+        background: #e0557d;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+      }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 overflow-hidden">
+    <div class="main-container rounded-lg p-6 max-w-3xl w-full relative">
+        <div class="floating-heart absolute top-10 left-20 w-8 h-8 bg-pink-300 rounded-full"></div>
+        <div class="floating-heart absolute top-20 right-20 w-6 h-6 bg-purple-300 rounded-full"></div>
+    
+        <div class="gif-carousel relative">
+          <div class="gif-container">
+            <div class="gif-wrapper">
+              <div class="gif-slide active" data-surprise="Oyee sunn !!! 🌈✨">
+                <img src="hug4.gif" alt="Hug 1" class="transition-all duration-300">
+                <p class="gif-caption text-center font-kawaii text-2xl text-pink-600">Sending Pookie Hugs! 🐻</p>
+              </div>
+              <div class="gif-slide hidden" data-surprise="Hehehe.... 🍯💕">
+                <img src="hug1.gif" alt="Hug 2" class="transition-all duration-300">
+                <p class="gif-caption text-center font-kawaii text-2xl text-pink-600">Bear Hugs Loading... 🐨</p>
+              </div>
+              <div class="gif-slide hidden" data-surprise="Pookie's heart goes boom boom! 🌟💝">
+                <img src="hug3.gif" alt="Hug 3" class="transition-all duration-300">
+                <p class="gif-caption text-center font-kawaii text-2xl text-pink-600">Cuddle Time! 🐼</p>
+              </div>
+            </div>
+    
+            <button class="carousel-arrow absolute left-4" onclick="switchSlide(-1)">
+              &#10094;
+            </button>
+            <button class="carousel-arrow absolute right-4" onclick="switchSlide(1)">
+              &#10095;
+            </button>
+          </div>
+        </div>
+    
+        <button id="surprise-btn" class="pookie-button">
+            Tap for Pookie's Surprise!
+          </button>
+          <button id="next-page-btn" class="next-page-button" onclick="goToNextPage()">
+            Next Page
+          </button>
+          
+      </div>
+
+  <script>
+    const slides = document.querySelectorAll('.gif-slide');
+    const arrows = document.querySelectorAll('.carousel-arrow');
+    const surpriseBtn = document.getElementById('surprise-btn');
+    const nextPageBtn = document.getElementById('next-page-btn');
+    let currentSlide = 0;
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      const hearts = ['❤️', '💖', '💝', '💕', '💗'];
+      heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+      heart.style.position = 'fixed';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+      heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+      heart.classList.add('raining-heart');
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+
+    function showSurpriseText() {
+      const activeSlide = document.querySelector('.gif-slide.active');
+      const surpriseMessage = activeSlide.dataset.surprise;
+
+      const surpriseText = document.createElement('div');
+      surpriseText.classList.add('surprise-text');
+
+      // Add sparkles
+      for (let i = 0; i < 6; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.classList.add('sparkle');
+        sparkle.style.left = `${Math.random() * 100}%`;
+        sparkle.style.top = `${Math.random() * 100}%`;
+        sparkle.style.animationDelay = `${Math.random() * 1.5}s`;
+        surpriseText.appendChild(sparkle);
+      }
+
+      // Add message with decorative elements
+      const messageContent = document.createElement('div');
+      messageContent.innerHTML = `
+        <span style="font-size: 1.2em">✨</span>
+        ${surpriseMessage}
+        <span style="font-size: 1.2em">✨</span>
+      `;
+      surpriseText.appendChild(messageContent);
+
+      document.body.appendChild(surpriseText);
+
+      // Enhanced animation with GSAP
+      gsap.to(surpriseText, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.6,
+        ease: "back.out(1.7)",
+        onComplete: () => {
+          setTimeout(() => {
+            gsap.to(surpriseText, {
+              opacity: 0,
+              scale: 0.8,
+              duration: 0.4,
+              ease: "back.in(1.7)",
+              onComplete: () => surpriseText.remove()
+            });
+          }, 2000);
+        }
+      });
+    }
+
+    // Increased heart rain frequency
+    setInterval(createHeart, 150);
+
+    function switchSlide(direction) {
+      slides[currentSlide].classList.add('hidden');
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + direction + slides.length) % slides.length;
+      slides[currentSlide].classList.remove('hidden');
+      slides[currentSlide].classList.add('active');
+
+      // Show next page button on the third slide
+      if (currentSlide === 2) {
+        nextPageBtn.style.display = 'block';
+      } else {
+        nextPageBtn.style.display = 'none';
+      }
+    }
+
+    arrows[0].addEventListener('click', () => switchSlide(-1));
+    arrows[1].addEventListener('click', () => switchSlide(1));
+
+    setInterval(() => switchSlide(1), 5000);
+
+    surpriseBtn.addEventListener('click', () => {
+      gsap.to(surpriseBtn, {
+        scale: 0.9,
+        duration: 0.1,
+        yoyo: true,
+        repeat: 1
+      });
+
+      showSurpriseText();
+
+      // Increased heart burst amount
+      for (let i = 0; i < 50; i++) {
+        setTimeout(createHeart, i * 30);
+      }
+    });
+
+    function goToNextPage() {
+      document.body.style.transition = 'opacity 0.5s';
+      document.body.style.opacity = '0';
+      setTimeout(() => {
+        window.location.href = 'Final.html';
+      }, 500);
+    }
+  </script>
+</body>
+</html>
